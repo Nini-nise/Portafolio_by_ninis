@@ -1,0 +1,51 @@
+/* =========================================================
+   BY NINIS · animations.css — todo con transform / opacity
+   ========================================================= */
+@keyframes sparkle{
+  0%{opacity:0;transform:translate(0,0) scale(0) rotate(0)}
+  30%{opacity:1;transform:translate(calc(var(--dx)*.4),calc(var(--dy)*.4)) scale(1) rotate(calc(var(--rot)*.5))}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.2) rotate(var(--rot))}
+}
+@keyframes twinkle{
+  0%,100%{transform:rotate(calc(var(--r,0)*1deg)) scale(1);opacity:.92}
+  50%{transform:rotate(calc(var(--r,0)*1deg + 9deg)) scale(1.13);opacity:1}
+}
+@keyframes twinkle2{0%,100%{transform:scale(1) rotate(0);opacity:1}50%{transform:scale(1.28) rotate(18deg);opacity:.75}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-.55cqw)}}
+@keyframes bobSoft{0%,100%{transform:translateY(0)}50%{transform:translateY(-.8cqw)}}
+@keyframes drift{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(.6cqw,-.5cqw) rotate(2deg)}}
+@keyframes sway{0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.4deg)}}
+
+/* Estrellas dibujadas: parpadeo suave y escalonado */
+.deco.sk{animation:twinkle 5s ease-in-out infinite;animation-delay:calc(var(--d,0)*-.6s)}
+.deco.rose{animation:twinkle 4.5s ease-in-out infinite}
+.gs-spark,.pf-star-spark{animation:twinkle2 2.8s ease-in-out infinite}
+.plane{animation:drift 8s ease-in-out infinite}
+
+/* Objetos de la portada: flotan despacio */
+.hf-item img{animation:bob 6s ease-in-out infinite;animation-delay:calc(var(--i,0)*-.9s)}
+.float-soft{animation:bobSoft 7s ease-in-out infinite}
+.cam-sticker.pf-cam{animation:sway 6s ease-in-out infinite}
+
+/* Aparición por scroll */
+.reveal{opacity:0;scale:.94;transition:opacity .85s var(--ease) var(--dl,0s),scale .85s var(--ease) var(--dl,0s)}
+.reveal.in{opacity:1;scale:1}
+.reveal-wipe{opacity:0;transform:translateY(7%) scale(.94);filter:blur(8px);transition:opacity 1.1s var(--ease),transform 1.3s var(--ease),filter 1.1s var(--ease)}
+.reveal-wipe.in{opacity:1;transform:none;filter:drop-shadow(0 1.2cqw 1.6cqw rgba(86,15,24,.22))}
+.hero-title.reveal{scale:1}
+.hero-title .tl{opacity:0;transform:translateY(55%) rotate(2deg);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.hero-title.in .tl{opacity:1;transform:none;transition-delay:calc(var(--d)*.16s + .1s)}
+.photo-cut.reveal,.paper.reveal{transition-property:transform,filter,opacity,scale}
+
+/* Parallax (mouse + scroll): usa la propiedad "translate", sin chocar con transform */
+[data-depth]{translate:calc(var(--mx,0)*var(--depth,0)*var(--par,1)*1px) calc((var(--my,0)*var(--depth,0) + var(--sy,0)*var(--depth,0)*-3)*var(--par,1)*1px)}
+
+/* Pausar decoración fuera de pantalla */
+.is-offscreen *,.is-offscreen *::before,.is-offscreen *::after{animation-play-state:paused!important}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  [data-depth]{translate:none}
+  .reveal,.reveal-wipe,.hero-title .tl{opacity:1;scale:1;transform:none;}
+}
